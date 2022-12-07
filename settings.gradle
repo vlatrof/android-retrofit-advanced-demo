@@ -14,5 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "RetrofitAdvancedDemo"
 include ':app'
-include ':data'
-include ':domain'
