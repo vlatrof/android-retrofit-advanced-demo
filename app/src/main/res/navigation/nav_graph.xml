@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_search">
+
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.SearchFragment"
+        android:label="@string/search_fragment_label"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_fragment_search_to_fragment_weather_today"
+            app:destination="@id/fragment_weather_today"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_weather_today"
+        android:name="com.vlatrof.retrofitadvanceddemo.WeatherTodayFragment"
+        android:label="@string/weather_today_fragment_label"
+        tools:layout="@layout/fragment_weather_today">
+    </fragment>
+
+</navigation>
