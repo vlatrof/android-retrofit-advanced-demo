@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_search"
-        android:name="com.vlatrof.retrofitadvanceddemo.presentation.SearchFragment"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.search.SearchFragment"
         android:label="@string/search_fragment_label"
         tools:layout="@layout/fragment_search">
         <action
@@ -17,9 +17,13 @@
 
     <fragment
         android:id="@+id/fragment_weather_today"
-        android:name="com.vlatrof.retrofitadvanceddemo.WeatherTodayFragment"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.weathertoday.WeatherTodayFragment"
         android:label="@string/weather_today_fragment_label"
         tools:layout="@layout/fragment_weather_today">
+        <argument
+            android:name="cityName"
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
 
 </navigation>
