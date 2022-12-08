@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_btn_show_next_weather"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
+        android:title="@string/next_weather_btn_title"
+        app:showAsAction="ifRoom" />
+</menu>
