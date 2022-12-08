@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,15 +26,15 @@
             app:argType="string"
             android:defaultValue=""/>
         <action
-            android:id="@+id/action_fragment_weather_today_to_fragment_next_weather"
-            app:destination="@id/fragment_next_weather"/>
+            android:id="@+id/action_fragment_weather_today_to_fragment_weather_next"
+            app:destination="@id/fragment_weather_next"/>
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_next_weather"
-        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.nextweather.NextWeatherFragment"
+        android:id="@+id/fragment_weather_next"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.weathernext.WeatherNextFragment"
         android:label="@string/next_weather_fragment_label"
-        tools:layout="@layout/fragment_next_weather">
+        tools:layout="@layout/fragment_weather_next">
         <argument
             android:name="cityName"
             app:argType="string"

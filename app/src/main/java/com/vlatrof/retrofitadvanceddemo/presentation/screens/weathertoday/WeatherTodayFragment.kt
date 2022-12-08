@@ -21,7 +21,6 @@ class WeatherTodayFragment : Fragment(R.layout.fragment_weather_today) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWeatherTodayBinding.bind(view)
-        binding.tvCityname.text = "${args.cityName} today" // TODO: DUMMY!
         modifyActionBarMenu()
     }
 
@@ -46,7 +45,7 @@ class WeatherTodayFragment : Fragment(R.layout.fragment_weather_today) {
 
     private fun navigateToNextWeather() {
         findNavController().navigate(
-            WeatherTodayFragmentDirections.actionFragmentWeatherTodayToFragmentNextWeather(
+            WeatherTodayFragmentDirections.actionFragmentWeatherTodayToFragmentWeatherNext(
                 cityName = args.cityName
             )
         )

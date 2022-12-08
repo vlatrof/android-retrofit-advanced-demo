@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.activity
+package com.vlatrof.retrofitadvanceddemo.presentation.screens.common
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,13 +7,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.vlatrof.retrofitadvanceddemo.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         setupActionBar()
     }
 
