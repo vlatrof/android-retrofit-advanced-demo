@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".presentation.screens.weathertoday.WeatherTodayFragment">
+    tools:context=".presentation.screens.nextweather.NextWeatherFragment">
 
     <TextView
-        android:id="@+id/tv_cityname"
-        tools:text="London today"
+        android:id="@+id/tv_cityname_next"
+        tools:text="London today + 3 days next"
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

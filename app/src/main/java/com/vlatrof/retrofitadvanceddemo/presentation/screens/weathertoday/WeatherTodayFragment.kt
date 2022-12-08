@@ -8,10 +8,10 @@ import android.view.View
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.databinding.FragmentWeatherTodayBinding
-import com.vlatrof.retrofitadvanceddemo.presentation.utils.showToast
 
 class WeatherTodayFragment : Fragment(R.layout.fragment_weather_today) {
 
@@ -21,8 +21,7 @@ class WeatherTodayFragment : Fragment(R.layout.fragment_weather_today) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWeatherTodayBinding.bind(view)
-
-        binding.tvCityName.text = args.cityName // TODO: DUMMY!
+        binding.tvCityname.text = "${args.cityName} today" // TODO: DUMMY!
         modifyActionBarMenu()
     }
 
@@ -34,7 +33,7 @@ class WeatherTodayFragment : Fragment(R.layout.fragment_weather_today) {
                 }
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                     if (menuItem.itemId == R.id.menu_btn_show_next_weather) {
-                        showToast("next weather") // TODO: DUMMY!
+                        navigateToNextWeather()
                         return true
                     }
                     return false
@@ -42,6 +41,14 @@ class WeatherTodayFragment : Fragment(R.layout.fragment_weather_today) {
             },
             viewLifecycleOwner,
             Lifecycle.State.STARTED
+        )
+    }
+
+    private fun navigateToNextWeather() {
+        findNavController().navigate(
+            WeatherTodayFragmentDirections.actionFragmentWeatherTodayToFragmentNextWeather(
+                cityName = args.cityName
+            )
         )
     }
 }

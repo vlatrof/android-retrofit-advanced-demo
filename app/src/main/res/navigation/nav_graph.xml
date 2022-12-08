@@ -24,6 +24,20 @@
             android:name="cityName"
             app:argType="string"
             android:defaultValue=""/>
+        <action
+            android:id="@+id/action_fragment_weather_today_to_fragment_next_weather"
+            app:destination="@id/fragment_next_weather"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_next_weather"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.nextweather.NextWeatherFragment"
+        android:label="@string/next_weather_fragment_label"
+        tools:layout="@layout/fragment_next_weather">
+        <argument
+            android:name="cityName"
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
 
 </navigation>

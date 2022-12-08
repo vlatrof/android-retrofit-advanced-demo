@@ -5,4 +5,5 @@
     <string name="search_fragment_label">Search City</string>
     <string name="weather_today_fragment_label">Weather Today</string>
     <string name="next_weather_btn_title">Next Weather</string>
+    <string name="next_weather_fragment_label">Next Weather</string>
 </resources>
