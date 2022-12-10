@@ -7,47 +7,26 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vlatrof.retrofitadvanceddemo.R
-import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSourceImpl
-import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.WeatherRetrofit
 import com.vlatrof.retrofitadvanceddemo.databinding.FragmentCurrentWeatherBinding
-import com.vlatrof.retrofitadvanceddemo.presentation.screens.currentweather.viewmodel.CurrentWeatherViewModel
-import com.vlatrof.retrofitadvanceddemo.presentation.screens.currentweather.viewmodel.CurrentWeatherViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
 
     private val args: CurrentWeatherFragmentArgs by navArgs()
+    private val currentWeatherViewModel: CurrentWeatherViewModel by viewModels()
     private lateinit var binding: FragmentCurrentWeatherBinding
-    private lateinit var currentWeatherViewModel: CurrentWeatherViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCurrentWeatherBinding.bind(view)
         modifyActionBarMenu()
-        initViewModel()
         observeCurrentWeather()
-        fetchCurrentWeather()
-    }
-
-    private fun fetchCurrentWeather() {
-        currentWeatherViewModel.fetchCurrentWeather()
-    }
-
-    private fun initViewModel() {
-        val factory = CurrentWeatherViewModelFactory(
-            cityName = args.cityName,
-            weatherRemoteDataSource = WeatherRemoteDataSourceImpl(
-                weatherApi = WeatherRetrofit.api
-            )
-        )
-        currentWeatherViewModel = ViewModelProvider(
-            owner = this@CurrentWeatherFragment,
-            factory = factory
-        )[CurrentWeatherViewModel::class.java]
     }
 
     private fun observeCurrentWeather() {

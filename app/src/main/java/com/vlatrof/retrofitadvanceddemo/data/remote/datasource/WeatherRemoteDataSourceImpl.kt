@@ -1,16 +1,18 @@
 package com.vlatrof.retrofitadvanceddemo.data.remote.datasource
 
+import com.vlatrof.retrofitadvanceddemo.data.di.IODispatcher
 import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.WeatherApi
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class WeatherRemoteDataSourceImpl(
+class WeatherRemoteDataSourceImpl @Inject constructor(
 
-    private val weatherApi: WeatherApi,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-    
-    ) : WeatherRemoteDataSource {
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val weatherApi: WeatherApi
+
+) : WeatherRemoteDataSource {
 
     override suspend fun getGeoCoordinates(cityName: String) = withContext(ioDispatcher) {
         weatherApi.getGeoCoordinates(cityName = cityName)
@@ -24,7 +26,7 @@ class WeatherRemoteDataSourceImpl(
                 units = units
             )
         }
-    
+
     override suspend fun getWeatherForecast(lat: Double, lon: Double, units: String) =
         withContext(ioDispatcher) {
             weatherApi.getWeatherForecast(
