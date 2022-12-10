@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.shared
+package com.vlatrof.retrofitadvanceddemo.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

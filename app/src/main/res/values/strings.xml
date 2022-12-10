@@ -3,7 +3,7 @@
     <string name="search_input_hint">City</string>
     <string name="search_button_text">Search</string>
     <string name="search_fragment_label">Search City</string>
-    <string name="weather_today_fragment_label">Weather Today</string>
-    <string name="next_weather_btn_title">Next Weather</string>
-    <string name="next_weather_fragment_label">Next Weather</string>
+    <string name="current_weather_fragment_label">Current Weather</string>
+    <string name="weather_forecast_btn_title">Weather Forecast</string>
+    <string name="weather_forecast_fragment_label">Weather Forecast</string>
 </resources>

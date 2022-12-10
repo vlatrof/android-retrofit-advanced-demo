@@ -1,0 +1,3 @@
+package com.vlatrof.retrofitadvanceddemo.presentation.screens.weatherforecast
+
+class WeatherAdapter

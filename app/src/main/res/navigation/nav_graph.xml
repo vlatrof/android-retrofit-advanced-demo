@@ -12,29 +12,29 @@
         android:label="@string/search_fragment_label"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_fragment_search_to_fragment_weather_today"
-            app:destination="@id/fragment_weather_today"/>
+            android:id="@+id/action_fragment_search_to_fragment_current_weather"
+            app:destination="@id/fragment_current_weather"/>
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_weather_today"
-        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.weathertoday.WeatherTodayFragment"
-        android:label="@string/weather_today_fragment_label"
-        tools:layout="@layout/fragment_weather_today">
+        android:id="@+id/fragment_current_weather"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.currentweather.CurrentWeatherFragment"
+        android:label="@string/current_weather_fragment_label"
+        tools:layout="@layout/fragment_current_weather">
         <argument
             android:name="cityName"
             app:argType="string"
             android:defaultValue=""/>
         <action
-            android:id="@+id/action_fragment_weather_today_to_fragment_weather_next"
-            app:destination="@id/fragment_weather_next"/>
+            android:id="@+id/action_fragment_current_weather_to_fragment_weather_forecast"
+            app:destination="@id/fragment_weather_forecast"/>
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_weather_next"
-        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.weathernext.WeatherNextFragment"
-        android:label="@string/next_weather_fragment_label"
-        tools:layout="@layout/fragment_weather_next">
+        android:id="@+id/fragment_weather_forecast"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.weatherforecast.WeatherForecastFragment"
+        android:label="@string/weather_forecast_fragment_label"
+        tools:layout="@layout/fragment_weather_forecast">
         <argument
             android:name="cityName"
             app:argType="string"

@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_btn_show_next_weather"
+        android:id="@+id/menu_btn_show_weather_forecast"
         android:icon="@drawable/ic_baseline_calendar_month_24"
-        android:title="@string/next_weather_btn_title"
+        android:title="@string/weather_forecast_btn_title"
         app:showAsAction="ifRoom" />
 </menu>
