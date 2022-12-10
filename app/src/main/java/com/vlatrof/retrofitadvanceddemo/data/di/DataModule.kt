@@ -1,8 +1,11 @@
 package com.vlatrof.retrofitadvanceddemo.data.di
 
 import com.vlatrof.retrofitadvanceddemo.BuildConfig
+import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSource
+import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSourceImpl
 import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.ApiKeyInterceptor
 import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.WeatherApi
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -69,4 +72,15 @@ class DataModule {
     @Singleton
     @MainDispatcher
     fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class DataBindModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindWeatherRemoteDataSource(
+        implementation: WeatherRemoteDataSourceImpl
+    ): WeatherRemoteDataSource
 }
