@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.databinding.FragmentWeatherForecastBinding
+import com.vlatrof.retrofitadvanceddemo.presentation.screens.shared.BaseViewModel
+import com.vlatrof.retrofitadvanceddemo.presentation.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,9 +21,30 @@ class WeatherForecastFragment : Fragment(R.layout.fragment_weather_forecast) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWeatherForecastBinding.bind(view)
+        observeWeatherForecast()
+    }
 
-        weatherForecastViewModel.currentWeatherLiveData.observe(viewLifecycleOwner) { newValue ->
-            binding.tvWeatherForecastText.text = newValue.toString()
+    private fun observeWeatherForecast() {
+        weatherForecastViewModel.weatherForecastLiveData.observe(viewLifecycleOwner) { newState ->
+            when (newState) {
+                is BaseViewModel.ResourceState.Initial -> {
+                    binding.pbWeatherForecastLoading.visibility = View.INVISIBLE
+                }
+
+                is BaseViewModel.ResourceState.Loading -> {
+                    binding.pbWeatherForecastLoading.visibility = View.VISIBLE
+                }
+
+                is BaseViewModel.ResourceState.Error -> {
+                    binding.pbWeatherForecastLoading.visibility = View.INVISIBLE
+                    showToast("Dummy Error")
+                }
+
+                is BaseViewModel.ResourceState.Success -> {
+                    binding.pbWeatherForecastLoading.visibility = View.INVISIBLE
+                    binding.tvWeatherForecast.text = newState.data.toString()
+                }
+            }
         }
     }
 }

@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.databinding.FragmentCurrentWeatherBinding
+import com.vlatrof.retrofitadvanceddemo.presentation.screens.shared.BaseViewModel
+import com.vlatrof.retrofitadvanceddemo.presentation.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,12 +29,6 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
         binding = FragmentCurrentWeatherBinding.bind(view)
         modifyActionBarMenu()
         observeCurrentWeather()
-    }
-
-    private fun observeCurrentWeather() {
-        currentWeatherViewModel.currentWeatherLiveData.observe(viewLifecycleOwner) { newValue ->
-            binding.tvCurrentWeatherText.text = newValue.toString()
-        }
     }
 
     private fun modifyActionBarMenu() {
@@ -53,6 +49,30 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
             viewLifecycleOwner,
             Lifecycle.State.STARTED
         )
+    }
+
+    private fun observeCurrentWeather() {
+        currentWeatherViewModel.currentWeatherLiveData.observe(viewLifecycleOwner) { newState ->
+            when (newState) {
+                is BaseViewModel.ResourceState.Initial -> {
+                    binding.pbCurrentWeatherLoading.visibility = View.INVISIBLE
+                }
+
+                is BaseViewModel.ResourceState.Loading -> {
+                    binding.pbCurrentWeatherLoading.visibility = View.VISIBLE
+                }
+
+                is BaseViewModel.ResourceState.Error -> {
+                    binding.pbCurrentWeatherLoading.visibility = View.INVISIBLE
+                    showToast("Dummy Error")
+                }
+
+                is BaseViewModel.ResourceState.Success -> {
+                    binding.pbCurrentWeatherLoading.visibility = View.INVISIBLE
+                    binding.tvCurrentWeather.text = newState.data.toString()
+                }
+            }
+        }
     }
 
     private fun navigateToWeatherForecast() {
