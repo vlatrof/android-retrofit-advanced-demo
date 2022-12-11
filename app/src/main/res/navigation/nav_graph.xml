@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment_search"
-        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.search.SearchFragment"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.search.SearchFragment"
         android:label="@string/search_fragment_label"
         tools:layout="@layout/fragment_search">
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/fragment_current_weather"
-        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.currentweather.CurrentWeatherFragment"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.currentweather.CurrentWeatherFragment"
         android:label="@string/current_weather_fragment_label"
         tools:layout="@layout/fragment_current_weather">
         <argument
@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/fragment_weather_forecast"
-        android:name="com.vlatrof.retrofitadvanceddemo.presentation.screens.weatherforecast.WeatherForecastFragment"
+        android:name="com.vlatrof.retrofitadvanceddemo.presentation.weatherforecast.WeatherForecastFragment"
         android:label="@string/weather_forecast_fragment_label"
         tools:layout="@layout/fragment_weather_forecast">
         <argument

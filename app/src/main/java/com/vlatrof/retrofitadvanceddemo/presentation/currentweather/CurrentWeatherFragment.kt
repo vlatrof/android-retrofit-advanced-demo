@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.screens.currentweather
+package com.vlatrof.retrofitadvanceddemo.presentation.currentweather
 
 import android.os.Bundle
 import android.view.Menu
@@ -13,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.databinding.FragmentCurrentWeatherBinding
-import com.vlatrof.retrofitadvanceddemo.presentation.screens.shared.BaseViewModel
-import com.vlatrof.retrofitadvanceddemo.presentation.utils.showToast
+import com.vlatrof.retrofitadvanceddemo.presentation.shared.BaseViewModel
+import com.vlatrof.retrofitadvanceddemo.app.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

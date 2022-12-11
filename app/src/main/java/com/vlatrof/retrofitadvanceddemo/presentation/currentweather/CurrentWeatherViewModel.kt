@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.screens.currentweather
+package com.vlatrof.retrofitadvanceddemo.presentation.currentweather
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.vlatrof.retrofitadvanceddemo.data.di.MainDispatcher
 import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSource
 import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.CurrentWeather
-import com.vlatrof.retrofitadvanceddemo.presentation.screens.shared.BaseViewModel
+import com.vlatrof.retrofitadvanceddemo.presentation.shared.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher

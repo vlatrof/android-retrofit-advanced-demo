@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.utils // ktlint-disable filename
+package com.vlatrof.retrofitadvanceddemo.app.utils // ktlint-disable filename
 
 import android.app.Activity
 import android.content.Context

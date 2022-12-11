@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.screens.weatherforecast
+package com.vlatrof.retrofitadvanceddemo.presentation.weatherforecast
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,8 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.vlatrof.retrofitadvanceddemo.data.di.MainDispatcher
 import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSource
 import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.WeatherForecast
-import com.vlatrof.retrofitadvanceddemo.presentation.screens.currentweather.CurrentWeatherFragmentArgs
-import com.vlatrof.retrofitadvanceddemo.presentation.screens.shared.BaseViewModel
+import com.vlatrof.retrofitadvanceddemo.presentation.shared.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,7 +23,7 @@ class WeatherForecastViewModel @Inject constructor(
 
 ) : BaseViewModel() {
 
-    private val cityNameArg: String = CurrentWeatherFragmentArgs
+    private val cityNameArg: String = WeatherForecastFragmentArgs
         .fromSavedStateHandle(savedStateHandle = savedStateHandle).cityName
 
     private val mutableWeatherForecastLiveData =

@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.screens.search
+package com.vlatrof.retrofitadvanceddemo.presentation.search
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.databinding.FragmentSearchBinding
-import com.vlatrof.retrofitadvanceddemo.presentation.utils.hideKeyboard
+import com.vlatrof.retrofitadvanceddemo.app.utils.hideKeyboard
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
 

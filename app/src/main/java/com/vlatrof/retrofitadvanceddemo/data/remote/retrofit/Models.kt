@@ -1,7 +1,5 @@
 package com.vlatrof.retrofitadvanceddemo.data.remote.retrofit
 
-import com.google.gson.annotations.SerializedName
-
 data class GeoCoordinates(
     val name: String,
     val lat: Double,
@@ -9,11 +7,17 @@ data class GeoCoordinates(
 )
 
 data class CurrentWeather(
+    val name: String,
+    val sys: Sys,
     val cod: String,
     val dt: Long,
     val timezone: Int,
     val main: Main,
     val wind: Wind
+)
+
+data class Sys(
+    val country: String
 )
 
 data class WeatherForecast(
@@ -31,8 +35,7 @@ data class WeatherStamp(
 
 data class Main(
     val temp: Double,
-    @SerializedName("feels_like")
-    val feelsLike: Double,
+    val feels_like: Double,
     val pressure: Int,
     val humidity: Int
 )
