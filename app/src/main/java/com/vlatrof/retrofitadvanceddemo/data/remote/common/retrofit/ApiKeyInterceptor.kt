@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.data.remote.retrofit
+package com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit
 
 import okhttp3.Interceptor
 import okhttp3.Response

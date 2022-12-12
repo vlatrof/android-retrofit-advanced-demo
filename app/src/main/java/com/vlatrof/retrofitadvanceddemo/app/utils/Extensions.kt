@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 // Hide Keyboard
 
@@ -24,6 +25,12 @@ fun Fragment.hideKeyboard() {
 
 // Show Toast
 
-fun Fragment.showToast(message: String, toastLength: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(requireActivity(), message, toastLength).show()
+fun Fragment.showToast(message: String, length: Int = Toast.LENGTH_LONG) {
+    Toast.makeText(requireActivity(), message, length).show()
+}
+
+// Show Snackbar
+
+fun Fragment.showSnackbar(message: String, length: Int = Snackbar.LENGTH_LONG) {
+    view?.let { view -> Snackbar.make(view, message, length).show() }
 }

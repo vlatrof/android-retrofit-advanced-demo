@@ -1,11 +1,8 @@
 package com.vlatrof.retrofitadvanceddemo.data.di
 
 import com.vlatrof.retrofitadvanceddemo.BuildConfig
-import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSource
-import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSourceImpl
-import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.ApiKeyInterceptor
-import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.WeatherApi
-import dagger.Binds
+import com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit.ApiKeyInterceptor
+import com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +34,7 @@ class DataModule {
     fun provideOkHttpClient(@ApiKey apiKey: String): OkHttpClient {
         val builder = OkHttpClient.Builder()
             .addInterceptor(ApiKeyInterceptor(apiKey = apiKey))
+            .addInterceptor(HttpLoggingInterceptor())
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(
                 HttpLoggingInterceptor().apply {
@@ -72,15 +70,4 @@ class DataModule {
     @Singleton
     @MainDispatcher
     fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class DataBindModule {
-
-    @Binds
-    @Singleton
-    abstract fun bindWeatherRemoteDataSource(
-        implementation: WeatherRemoteDataSourceImpl
-    ): WeatherRemoteDataSource
 }

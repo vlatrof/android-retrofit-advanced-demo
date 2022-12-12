@@ -6,4 +6,7 @@
     <string name="current_weather_fragment_label">Current Weather</string>
     <string name="weather_forecast_btn_title">Weather Forecast</string>
     <string name="weather_forecast_fragment_label">Weather Forecast</string>
+    <string name="internet_connection_error">Connection error. Please, check internet connection</string>
+    <string name="no_such_city_was_found_error">No such city was found. Please check city name</string>
+    <string name="data_fetch_error_ui_message">Data fetching error</string>
 </resources>

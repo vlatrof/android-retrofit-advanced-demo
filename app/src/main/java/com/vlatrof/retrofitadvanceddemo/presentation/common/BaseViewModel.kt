@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.presentation.shared
+package com.vlatrof.retrofitadvanceddemo.presentation.common
 
 import androidx.lifecycle.ViewModel
 

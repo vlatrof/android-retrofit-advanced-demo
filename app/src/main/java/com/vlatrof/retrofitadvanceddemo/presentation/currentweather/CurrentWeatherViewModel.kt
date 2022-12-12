@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.data.di.MainDispatcher
-import com.vlatrof.retrofitadvanceddemo.data.remote.datasource.WeatherRemoteDataSource
-import com.vlatrof.retrofitadvanceddemo.data.remote.retrofit.CurrentWeather
-import com.vlatrof.retrofitadvanceddemo.presentation.shared.BaseViewModel
+import com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit.CurrentWeather
+import com.vlatrof.retrofitadvanceddemo.domain.GetCurrentWeatherUseCase
+import com.vlatrof.retrofitadvanceddemo.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,41 +18,53 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class CurrentWeatherViewModel @Inject constructor(
 
-    @MainDispatcher private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
-    private val weatherRemoteDataSource: WeatherRemoteDataSource,
+    @MainDispatcher
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
+    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
     savedStateHandle: SavedStateHandle
 
 ) : BaseViewModel() {
-
-    private val cityNameArg: String = CurrentWeatherFragmentArgs
-        .fromSavedStateHandle(savedStateHandle = savedStateHandle).cityName
-
+    
     private val mutableCurrentWeatherLiveData =
         MutableLiveData<ResourceState<CurrentWeather>>(ResourceState.Initial)
     val currentWeatherLiveData: LiveData<ResourceState<CurrentWeather>> =
         mutableCurrentWeatherLiveData
 
     init {
-        fetchCurrentWeather()
+        fetchCurrentWeather(
+            cityName = CurrentWeatherFragmentArgs
+                .fromSavedStateHandle(savedStateHandle = savedStateHandle)
+                .cityName,
+            units = "metric" // todo: value should be taken from shared prefs
+        )
     }
 
-    private fun fetchCurrentWeather() = viewModelScope.launch(mainDispatcher) {
+    private fun fetchCurrentWeather(cityName: String, units: String) {
         mutableCurrentWeatherLiveData.value = ResourceState.Loading
 
-        val geoCoordinatesResponse = weatherRemoteDataSource
-            .getGeoCoordinates(cityName = cityNameArg)
-        if (!geoCoordinatesResponse.isSuccessful) return@launch
-        if (geoCoordinatesResponse.body()?.isEmpty()!!) return@launch
-        val geoCoordinates = geoCoordinatesResponse.body()?.get(0)
+        viewModelScope.launch(mainDispatcher) {
+            val currentWeatherResult = getCurrentWeatherUseCase(
+                cityName = cityName,
+                units = units
+            )
 
-        val currentWeatherResponse = weatherRemoteDataSource.getCurrentWeather(
-            lat = geoCoordinates!!.lat,
-            lon = geoCoordinates.lon,
-            units = "metric"
-        )
-        if (currentWeatherResponse.isSuccessful) {
-            mutableCurrentWeatherLiveData.value =
-                ResourceState.Success(data = currentWeatherResponse.body()!!)
+            when (currentWeatherResult) {
+                is GetCurrentWeatherUseCase.Result.UnknownHostError -> {
+                    mutableCurrentWeatherLiveData.value = ResourceState.Error(
+                        resourceMessageId = R.string.internet_connection_error
+                    )
+                }
+                is GetCurrentWeatherUseCase.Result.NotFoundError -> {
+                    mutableCurrentWeatherLiveData.value = ResourceState.Error(
+                        resourceMessageId = R.string.no_such_city_was_found_error
+                    )
+                }
+                is GetCurrentWeatherUseCase.Result.Success -> {
+                    mutableCurrentWeatherLiveData.value = ResourceState.Success(
+                        data = currentWeatherResult.data
+                    )
+                }
+            }
         }
     }
 }

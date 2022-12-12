@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.data.remote.retrofit
+package com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit
 
 data class GeoCoordinates(
     val name: String,

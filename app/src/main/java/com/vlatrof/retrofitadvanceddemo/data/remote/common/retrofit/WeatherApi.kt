@@ -1,4 +1,4 @@
-package com.vlatrof.retrofitadvanceddemo.data.remote.retrofit
+package com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit
 
 import retrofit2.Response
 import retrofit2.http.GET
