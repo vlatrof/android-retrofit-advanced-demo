@@ -11,11 +11,11 @@ import com.vlatrof.retrofitadvanceddemo.domain.GeoCoordinatesInteractor
 import com.vlatrof.retrofitadvanceddemo.domain.WeatherForecastInteractor
 import com.vlatrof.retrofitadvanceddemo.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.UnknownHostException
 
 @HiltViewModel
 class WeatherForecastViewModel @Inject constructor(

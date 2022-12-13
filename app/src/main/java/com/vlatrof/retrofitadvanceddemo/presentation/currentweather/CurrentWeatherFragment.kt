@@ -23,7 +23,7 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
     private val args: CurrentWeatherFragmentArgs by navArgs()
     private val currentWeatherViewModel: CurrentWeatherViewModel by viewModels()
     private lateinit var binding: FragmentCurrentWeatherBinding
-    private var isForecastButtonEnabled = false
+    private var isForecastButtonVisible = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,25 +36,19 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
         currentWeatherViewModel.currentWeatherState.observe(viewLifecycleOwner) { newState ->
             when (newState) {
                 is BaseViewModel.ResourceState.Initial -> {
-                    binding.pbCurrentWeatherLoading.visibility = View.INVISIBLE
-                    isForecastButtonEnabled = false
+                    changeLayoutVisibility() // all params - false
                 }
                 is BaseViewModel.ResourceState.Loading -> {
-                    binding.pbCurrentWeatherLoading.visibility = View.VISIBLE
-                    isForecastButtonEnabled = false
+                    changeLayoutVisibility(isProgressBarVisible = true)
                 }
                 is BaseViewModel.ResourceState.Error -> {
-                    binding.pbCurrentWeatherLoading.visibility = View.INVISIBLE
-                    binding.tvCurrentWeather.text = getString(
-                        R.string.data_fetch_error_ui_message
-                    )
+                    binding.tvCurrentWeather.text = getString(R.string.data_fetch_error_ui_message)
+                    changeLayoutVisibility(isErrorMessageVisible = true)
                     showSnackbar(message = requireActivity().getString(newState.resourceMessageId))
-                    isForecastButtonEnabled = false
                 }
                 is BaseViewModel.ResourceState.Success -> {
-                    binding.pbCurrentWeatherLoading.visibility = View.INVISIBLE
                     binding.tvCurrentWeather.text = newState.data.toString()
-                    isForecastButtonEnabled = true
+                    changeLayoutVisibility(isContentVisible = true)
                 }
             }
             requireActivity().invalidateOptionsMenu()
@@ -67,8 +61,8 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
                 override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                     menuInflater.inflate(R.menu.fragment_current_weather_action_bar_menu, menu)
                     val item = menu.findItem(R.id.menu_btn_show_weather_forecast)
-                    item.isEnabled = isForecastButtonEnabled
-                    item.isVisible = isForecastButtonEnabled
+                    item.isEnabled = isForecastButtonVisible
+                    item.isVisible = isForecastButtonVisible
                 }
 
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -82,6 +76,26 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
             viewLifecycleOwner,
             Lifecycle.State.STARTED
         )
+    }
+
+    private fun changeLayoutVisibility(
+        isProgressBarVisible: Boolean = false,
+        isContentVisible: Boolean = false,
+        isErrorMessageVisible: Boolean = false,
+        isForecastButtonVisible: Boolean = false
+    ) {
+        binding.pbCurrentWeatherLoading.visibility =
+            if (isProgressBarVisible) View.VISIBLE else View.INVISIBLE
+
+        if (isContentVisible) {
+            binding.tvCurrentWeather.visibility = View.VISIBLE
+            // TODO
+        } else {
+            binding.tvCurrentWeather.visibility = View.INVISIBLE
+            // TODO
+        }
+
+        this@CurrentWeatherFragment.isForecastButtonVisible = isForecastButtonVisible
     }
 
     private fun navigateToWeatherForecast() {
