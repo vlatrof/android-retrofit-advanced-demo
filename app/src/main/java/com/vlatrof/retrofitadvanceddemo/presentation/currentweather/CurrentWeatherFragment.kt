@@ -36,19 +36,21 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
         currentWeatherViewModel.currentWeatherState.observe(viewLifecycleOwner) { newState ->
             when (newState) {
                 is BaseViewModel.ResourceState.Initial -> {
-                    changeLayoutVisibility() // all params - false
+                    changeLayoutVisibility() // all params false (by default)
                 }
                 is BaseViewModel.ResourceState.Loading -> {
                     changeLayoutVisibility(isProgressBarVisible = true)
                 }
                 is BaseViewModel.ResourceState.Error -> {
-                    binding.tvCurrentWeather.text = getString(R.string.data_fetch_error_ui_message)
-                    changeLayoutVisibility(isErrorMessageVisible = true)
+                    binding.tvLoadErrorMessage.text = getString(
+                        R.string.data_fetch_error_ui_message
+                    )
                     showSnackbar(message = requireActivity().getString(newState.resourceMessageId))
+                    changeLayoutVisibility(isErrorMessageVisible = true)
                 }
                 is BaseViewModel.ResourceState.Success -> {
-                    binding.tvCurrentWeather.text = newState.data.toString()
-                    changeLayoutVisibility(isContentVisible = true)
+                    binding.tvLoadedContentText.text = newState.data.toString()
+                    changeLayoutVisibility(isContentVisible = true, isForecastButtonVisible = true)
                 }
             }
             requireActivity().invalidateOptionsMenu()
@@ -84,16 +86,14 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
         isErrorMessageVisible: Boolean = false,
         isForecastButtonVisible: Boolean = false
     ) {
-        binding.pbCurrentWeatherLoading.visibility =
+        binding.pbLoadingContent.visibility =
             if (isProgressBarVisible) View.VISIBLE else View.INVISIBLE
 
-        if (isContentVisible) {
-            binding.tvCurrentWeather.visibility = View.VISIBLE
-            // TODO
-        } else {
-            binding.tvCurrentWeather.visibility = View.INVISIBLE
-            // TODO
-        }
+        binding.tvLoadedContentText.visibility =
+            if (isContentVisible) View.VISIBLE else View.INVISIBLE
+
+        binding.tvLoadErrorMessage.visibility =
+            if (isErrorMessageVisible) View.VISIBLE else View.INVISIBLE
 
         this@CurrentWeatherFragment.isForecastButtonVisible = isForecastButtonVisible
     }

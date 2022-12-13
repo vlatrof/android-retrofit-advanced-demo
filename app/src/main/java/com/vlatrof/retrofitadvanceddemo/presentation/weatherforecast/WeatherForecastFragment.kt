@@ -26,23 +26,39 @@ class WeatherForecastFragment : Fragment(R.layout.fragment_weather_forecast) {
         weatherForecastViewModel.weatherForecastLiveData.observe(viewLifecycleOwner) { newState ->
             when (newState) {
                 is BaseViewModel.ResourceState.Initial -> {
-                    binding.pbWeatherForecastLoading.visibility = View.INVISIBLE
+                    changeLayoutVisibility() // all params false (by default)
                 }
                 is BaseViewModel.ResourceState.Loading -> {
-                    binding.pbWeatherForecastLoading.visibility = View.VISIBLE
+                    changeLayoutVisibility(isProgressBarVisible = true)
                 }
                 is BaseViewModel.ResourceState.Error -> {
-                    binding.pbWeatherForecastLoading.visibility = View.INVISIBLE
-                    binding.tvWeatherForecast.text = getString(
+                    binding.tvLoadErrorMessage.text = getString(
                         R.string.data_fetch_error_ui_message
                     )
                     showSnackbar(message = requireActivity().getString(newState.resourceMessageId))
+                    changeLayoutVisibility(isErrorMessageVisible = true)
                 }
                 is BaseViewModel.ResourceState.Success -> {
-                    binding.pbWeatherForecastLoading.visibility = View.INVISIBLE
-                    binding.tvWeatherForecast.text = newState.data.toString()
+                    binding.tvLoadedContentText.text = newState.data.toString()
+                    changeLayoutVisibility(isContentVisible = true)
                 }
             }
         }
     }
+
+    private fun changeLayoutVisibility(
+        isProgressBarVisible: Boolean = false,
+        isContentVisible: Boolean = false,
+        isErrorMessageVisible: Boolean = false
+    ) {
+        binding.pbLoadingContent.visibility =
+            if (isProgressBarVisible) View.VISIBLE else View.INVISIBLE
+
+        binding.tvLoadedContentText.visibility =
+            if (isContentVisible) View.VISIBLE else View.INVISIBLE
+
+        binding.tvLoadErrorMessage.visibility =
+            if (isErrorMessageVisible) View.VISIBLE else View.INVISIBLE
+    }
+
 }

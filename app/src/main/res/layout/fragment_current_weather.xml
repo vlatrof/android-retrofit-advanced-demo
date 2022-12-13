@@ -12,23 +12,31 @@
         android:layout_height="wrap_content">
 
         <ProgressBar
-            android:id="@+id/pb_current_weather_loading"
+            android:id="@+id/pb_loading_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_current_weather"
+            android:id="@+id/tv_loaded_content_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="50dp"
             android:gravity="center"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/pb_current_weather_loading"
-            tools:text="Current Weather" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Content Text" />
+
+        <TextView
+            android:id="@+id/tv_load_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Error Message Text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
