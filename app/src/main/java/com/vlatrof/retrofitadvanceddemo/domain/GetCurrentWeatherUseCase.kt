@@ -7,14 +7,14 @@ import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-class CurrentWeatherInteractor @Inject constructor(
+class GetCurrentWeatherUseCase @Inject constructor(
 
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val currentWeatherRemoteDataSource: CurrentWeatherRemoteDataSource
 
 ) {
 
-    suspend fun getCurrentWeather(lat: Double, lon: Double, units: String): CurrentWeather? =
+    suspend operator fun invoke(lat: Double, lon: Double, units: String): CurrentWeather? =
         withContext(ioDispatcher) {
             currentWeatherRemoteDataSource.getCurrentWeather(lat = lat, lon = lon, units = units)
         }

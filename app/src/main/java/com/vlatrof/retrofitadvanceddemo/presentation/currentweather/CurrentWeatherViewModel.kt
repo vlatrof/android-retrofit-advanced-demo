@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.data.di.MainDispatcher
 import com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit.CurrentWeather
-import com.vlatrof.retrofitadvanceddemo.domain.CurrentWeatherInteractor
-import com.vlatrof.retrofitadvanceddemo.domain.GeoCoordinatesInteractor
+import com.vlatrof.retrofitadvanceddemo.domain.GetCurrentWeatherUseCase
+import com.vlatrof.retrofitadvanceddemo.domain.GetGeoCoordinatesUseCase
 import com.vlatrof.retrofitadvanceddemo.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.net.UnknownHostException
@@ -22,8 +22,8 @@ class CurrentWeatherViewModel @Inject constructor(
 
     @MainDispatcher
     private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
-    private val geoCoordinatesInteractor: GeoCoordinatesInteractor,
-    private val currentWeatherInteractor: CurrentWeatherInteractor,
+    private val getGeoCoordinatesUseCase: GetGeoCoordinatesUseCase,
+    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
     savedStateHandle: SavedStateHandle
 
 ) : BaseViewModel() {
@@ -49,7 +49,7 @@ class CurrentWeatherViewModel @Inject constructor(
         mutableCurrentWeatherState.value = ResourceState.Loading
         
         try {
-            val coordinatesResponse = geoCoordinatesInteractor.getCoordinates(cityName = cityName)
+            val coordinatesResponse = getGeoCoordinatesUseCase(cityName = cityName)
             if (coordinatesResponse.isNullOrEmpty()) {
                 mutableCurrentWeatherState.value = ResourceState.Error(
                     resourceMessageId = R.string.no_such_city_was_found_error
@@ -58,7 +58,7 @@ class CurrentWeatherViewModel @Inject constructor(
             }
 
             val firstMatch = coordinatesResponse[0]
-            val currentWeatherResponse = currentWeatherInteractor.getCurrentWeather(
+            val currentWeatherResponse = getCurrentWeatherUseCase(
                 lat = firstMatch.lat,
                 lon = firstMatch.lon,
                 units = units

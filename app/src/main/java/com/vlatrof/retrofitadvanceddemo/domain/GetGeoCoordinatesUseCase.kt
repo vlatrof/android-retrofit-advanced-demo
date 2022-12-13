@@ -7,14 +7,14 @@ import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-class GeoCoordinatesInteractor @Inject constructor(
+class GetGeoCoordinatesUseCase @Inject constructor(
 
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val geoCoordinatesRemoteDataSource: GeoCoordinatesRemoteDataSource
 
 ) {
 
-    suspend fun getCoordinates(cityName: String): List<GeoCoordinates>? =
+    suspend operator fun invoke(cityName: String): List<GeoCoordinates>? =
         withContext(ioDispatcher) {
             geoCoordinatesRemoteDataSource.getGeoCoordinates(cityName = cityName)
         }
