@@ -1,6 +1,5 @@
 package com.vlatrof.retrofitadvanceddemo.presentation.currentweather
 
-import android.graphics.BlendMode
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.app.utils.showSnackbar
-import com.vlatrof.retrofitadvanceddemo.app.utils.showToast
 import com.vlatrof.retrofitadvanceddemo.databinding.FragmentCurrentWeatherBinding
 import com.vlatrof.retrofitadvanceddemo.presentation.common.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +33,7 @@ class CurrentWeatherFragment : Fragment(R.layout.fragment_current_weather) {
     }
 
     private fun observeCurrentWeather() {
-        currentWeatherViewModel.currentWeatherLiveData.observe(viewLifecycleOwner) { newState ->
+        currentWeatherViewModel.currentWeatherState.observe(viewLifecycleOwner) { newState ->
             when (newState) {
                 is BaseViewModel.ResourceState.Initial -> {
                     binding.pbCurrentWeatherLoading.visibility = View.INVISIBLE

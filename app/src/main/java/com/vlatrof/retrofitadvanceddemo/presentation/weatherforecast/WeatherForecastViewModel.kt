@@ -7,65 +7,75 @@ import androidx.lifecycle.viewModelScope
 import com.vlatrof.retrofitadvanceddemo.R
 import com.vlatrof.retrofitadvanceddemo.data.di.MainDispatcher
 import com.vlatrof.retrofitadvanceddemo.data.remote.common.retrofit.WeatherForecast
-import com.vlatrof.retrofitadvanceddemo.domain.GetCurrentWeatherUseCase
-import com.vlatrof.retrofitadvanceddemo.domain.GetWeatherForecastUseCase
+import com.vlatrof.retrofitadvanceddemo.domain.GeoCoordinatesInteractor
+import com.vlatrof.retrofitadvanceddemo.domain.WeatherForecastInteractor
 import com.vlatrof.retrofitadvanceddemo.presentation.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 @HiltViewModel
 class WeatherForecastViewModel @Inject constructor(
 
     @MainDispatcher
     private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
-    private val getWeatherForecastUseCase: GetWeatherForecastUseCase,
+    private val geoCoordinatesInteractor: GeoCoordinatesInteractor,
+    private val weatherForecastInteractor: WeatherForecastInteractor,
     savedStateHandle: SavedStateHandle
 
 ) : BaseViewModel() {
 
-    private val mutableWeatherForecastLiveData =
-        MutableLiveData<ResourceState<WeatherForecast>>(ResourceState.Initial)
+    private val mutableWeatherForecastState = MutableLiveData<ResourceState<WeatherForecast>>(
+        ResourceState.Initial
+    )
     val weatherForecastLiveData: LiveData<ResourceState<WeatherForecast>> =
-        mutableWeatherForecastLiveData
+        mutableWeatherForecastState
 
     init {
         fetchWeatherForecast(
             cityName = WeatherForecastFragmentArgs
                 .fromSavedStateHandle(savedStateHandle = savedStateHandle)
                 .cityName,
-            units = "metric" // todo: value should be taken from shared prefs
+            units = "metric"
         )
     }
 
-    private fun fetchWeatherForecast(cityName: String, units: String) {
-        mutableWeatherForecastLiveData.value = ResourceState.Loading
+    private fun fetchWeatherForecast(cityName: String, units: String) = viewModelScope.launch(
+        mainDispatcher
+    ) {
+        mutableWeatherForecastState.value = ResourceState.Loading
 
-        viewModelScope.launch(mainDispatcher) {
-            val weatherForecastResult = getWeatherForecastUseCase(
-                cityName = cityName,
+        try {
+            val coordinatesResponse = geoCoordinatesInteractor.getCoordinates(cityName = cityName)
+            if (coordinatesResponse.isNullOrEmpty()) {
+                mutableWeatherForecastState.value = ResourceState.Error(
+                    resourceMessageId = R.string.no_such_city_was_found_error
+                )
+                return@launch
+            }
+
+            val firstMatch = coordinatesResponse[0]
+            val weatherForecastResponse = weatherForecastInteractor.getWeatherForecast(
+                lat = firstMatch.lat,
+                lon = firstMatch.lon,
                 units = units
             )
-
-            when (weatherForecastResult) {
-                is GetWeatherForecastUseCase.Result.UnknownHostError -> {
-                    mutableWeatherForecastLiveData.value = ResourceState.Error(
-                        resourceMessageId = R.string.internet_connection_error
-                    )
-                }
-                is GetWeatherForecastUseCase.Result.NotFoundError -> {
-                    mutableWeatherForecastLiveData.value = ResourceState.Error(
-                        resourceMessageId = R.string.no_such_city_was_found_error
-                    )
-                }
-                is GetWeatherForecastUseCase.Result.Success -> {
-                    mutableWeatherForecastLiveData.value = ResourceState.Success(
-                        data = weatherForecastResult.data
-                    )
-                }
+            if (weatherForecastResponse == null) {
+                mutableWeatherForecastState.value = ResourceState.Error(
+                    resourceMessageId = R.string.no_such_city_was_found_error
+                )
+                return@launch
             }
+            mutableWeatherForecastState.value = ResourceState.Success(
+                data = weatherForecastResponse
+            )
+        } catch (exception: UnknownHostException) {
+            mutableWeatherForecastState.value = ResourceState.Error(
+                resourceMessageId = R.string.internet_connection_error
+            )
         }
     }
 }
